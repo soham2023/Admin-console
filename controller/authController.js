@@ -98,9 +98,26 @@ const updateData = async (req, res, next) => {
 delete Data
 -------------------------------------*/
 const deleteData = async (req, res) => {
-    
-}
+    try {
+        const deletedData = await productModel.findOneAndDelete({ name: req.params.productName });
 
+        if (!deletedData) {
+            throw new Error("Data not found");
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Data deleted successfully',
+            data: deletedData,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
 
 module.exports = {
     createData,
