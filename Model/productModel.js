@@ -14,8 +14,12 @@ const productSchema = new Schema({
         type: Number,
         required: true,
     },
+    color: {
+        type: String, // Assuming color is a string value
+        required: true,
+    },
 }, { timestamps: true });
 
-const productModel = mongoose.model('Product',productSchema)
+const productModel = mongoose.model('Product', productSchema);
 
-module.exports = productModel
+module.exports = productModel;
