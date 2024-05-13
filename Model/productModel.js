@@ -14,8 +14,15 @@ const productSchema = new Schema({
         type: Number,
         required: true,
     },
+    color: {
+        type: String, // Assuming color is a string value
+        required: true,
+    },
+    image: {
+        type: String, // Assuming the image field stores the path to the uploaded image
+    },
 }, { timestamps: true });
 
-const productModel = mongoose.model('Product',productSchema)
+const productModel = mongoose.model('Product', productSchema);
 
-module.exports = productModel
+module.exports = productModel;

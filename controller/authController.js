@@ -1,33 +1,36 @@
 const productModel = require('../Model/productModel')
+const upload = require('../middleware/upload')
 
 /*----------------------------------
 Create Data
 -------------------------------------*/
 
 const createData = async (req, res, next) => {
-    const { name, verity, price } = req.body;
-    console.log(name, verity, price);
+    const { name, verity, price, color } = req.body;
 
     try {
-        if (!name || !verity || !price) {
+        if (!name || !verity || !price || !color) {
             return res.status(400).json({
                 success: false,
                 message: 'Please Fill All Fields',
             });
-        } else {
-            const product = new productModel({
-                name,
-                verity,
-                price
-            });
-            await product.save();
-
-            return res.status(201).json({
-                success: true,
-                message: 'Product created successfully',
-                data: product
-            });
         }
+
+        const product = new productModel({
+            name,
+            verity,
+            price,
+            color, 
+            //image: req.file ? req.file.path:null,
+        });
+
+        await product.save();
+
+        return res.status(201).json({
+            success: true,
+            message: 'Product created successfully',
+            data: product,
+        });
     } catch (error) {
         if (error.code === 11000) {
             return res.status(400).json({
@@ -35,9 +38,10 @@ const createData = async (req, res, next) => {
                 message: `Product already exists with provided details`,
             });
         }
-        return res.status(400).json({
+        return res.status(500).json({
             success: false,
-            message: error.message,
+            message: 'Internal Server Error',
+            error: error.message,
         });
     }
 };
@@ -46,17 +50,17 @@ Get Data
 -------------------------------------*/
 const getData = async (req, res, next) => {
     try {
-        const products = await productModel.find();
+        const products = await productModel.find().populate('image');
         return res.status(200).json({
             success: true,
             message: 'Products retrieved successfully',
-            data: products
+            data: products,
         });
     } catch (error) {
         return res.status(500).json({
             success: false,
             message: 'Internal Server Error',
-            error: error.message
+            error: error.message,
         });
     }
 };
@@ -65,13 +69,19 @@ Update Data
 -------------------------------------*/
 const updateData = async (req, res, next) => {
     const { productName } = req.params;
-    const { name, verity, price } = req.body;
+    const { name, verity, price, color } = req.body;
 
     try {
         const updatedProduct = await productModel.findOneAndUpdate(
-            { name: productName }, 
-            { name, verity, price }, 
-            { new: true } 
+            { name: productName },
+            {
+                name,
+                verity,
+                price,
+                color,
+                //image: req.file ? req.file.path : null, 
+            },
+            { new: true }
         );
 
         if (!updatedProduct) {
@@ -90,10 +100,11 @@ const updateData = async (req, res, next) => {
         return res.status(500).json({
             success: false,
             message: 'Internal Server Error',
-            error: error.message
+            error: error.message,
         });
     }
 };
+
 /*----------------------------------
 delete Data
 -------------------------------------*/
