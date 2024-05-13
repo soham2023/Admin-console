@@ -1,4 +1,5 @@
 const productModel = require('../Model/productModel')
+const upload = require('../middleware/upload')
 
 /*----------------------------------
 Create Data
@@ -19,7 +20,8 @@ const createData = async (req, res, next) => {
             name,
             verity,
             price,
-            color, // Add the color field to the product creation
+            color, 
+            //image: req.file ? req.file.path:null,
         });
 
         await product.save();
@@ -27,7 +29,7 @@ const createData = async (req, res, next) => {
         return res.status(201).json({
             success: true,
             message: 'Product created successfully',
-            data: product
+            data: product,
         });
     } catch (error) {
         if (error.code === 11000) {
@@ -48,17 +50,17 @@ Get Data
 -------------------------------------*/
 const getData = async (req, res, next) => {
     try {
-        const products = await productModel.find();
+        const products = await productModel.find().populate('image');
         return res.status(200).json({
             success: true,
             message: 'Products retrieved successfully',
-            data: products
+            data: products,
         });
     } catch (error) {
         return res.status(500).json({
             success: false,
             message: 'Internal Server Error',
-            error: error.message
+            error: error.message,
         });
     }
 };
@@ -71,9 +73,15 @@ const updateData = async (req, res, next) => {
 
     try {
         const updatedProduct = await productModel.findOneAndUpdate(
-            { name: productName }, 
-            { name, verity, price, color }, // Update the color field as well
-            { new: true } 
+            { name: productName },
+            {
+                name,
+                verity,
+                price,
+                color,
+                //image: req.file ? req.file.path : null, 
+            },
+            { new: true }
         );
 
         if (!updatedProduct) {
