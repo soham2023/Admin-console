@@ -12,8 +12,8 @@ app.use(cors())
 
 connectToDb()
 
-const userRoutes = require('./routes/userRoutes.js')
+//const userRoutes = require('./routes/userRoutes.js')
 
-app.use('/',userRouters)
+//app.use('/',userRouters)
 
 module.exports = app;
