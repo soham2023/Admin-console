@@ -1,8 +1,8 @@
-import cloudinary from 'cloudinary';
-import fs from 'fs'; // Importing the 'fs' module for file system operations
+const cloudinary = require('cloudinary');
+const fs = require('fs'); // Importing the 'fs' module for file system operations
 
-import User from '../models/productModel';
-import AppError from '../utils/appError'; // Importing custom error handler
+const User = require('../model/productModel');
+const AppError = require('../utils/appError'); // Importing custom error handler
 
 const createUser = async (req, res, next) => { // Added 'next' parameter for error handling
     try {

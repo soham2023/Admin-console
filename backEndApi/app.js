@@ -11,7 +11,7 @@ app.get("/ping", (_req, res) => {
   res.send("Pong");
 });
 
-const userRoutes = ('./routes/user.routes.js');
+const userRoutes = require('./routes/user.routes.js');
 
 app.use('/api/v1/user', userRoutes);
 
