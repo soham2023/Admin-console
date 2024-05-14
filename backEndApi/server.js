@@ -1,7 +1,7 @@
-//import { v2 } from "cloudinary";
+const { v2 } = require('cloudinary')
 
-import app from "./app.js";
-//import connectDB from ''
+const app = require('./app.js')
+const connectToDB = require('./config/dbconn.js')
 
 v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

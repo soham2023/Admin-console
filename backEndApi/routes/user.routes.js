@@ -4,9 +4,9 @@ const{createData,getData,updateData,deleteData} = require('../controllers/user.C
 
 const router = express.Router();
 
-router.post('/createData',createData);
-router.get('/getData',getData);
-router.put('/updateData',updateData);
-router.delete('/deleteData',deleteData);
+router.post('/createdata',createData);
+router.get('/getdata',getData);
+router.put('/updatedata',updateData);
+router.delete('/deletedata',deleteData);
 
 module.exports = router;

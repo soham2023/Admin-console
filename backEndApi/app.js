@@ -1,5 +1,6 @@
-import express from "express";
-import { config } from "dotenv";
+require('dotenv').config()
+const express = require('express')
+
 
 const app = express();
 
@@ -10,10 +11,7 @@ app.get("/ping", (_req, res) => {
   res.send("Pong");
 });
 
-import userRoutes from "./routes/user.routes.js";
-import courseRoutes from "./routes/course.routes.js";
-import paymentRoutes from "./routes/payment.routes.js";
-import miscRoutes from "./routes/miscellaneous.routes.js";
+const userRoutes = ('./routes/user.routes.js');
 
 app.use('/api/v1/user', userRoutes);
 
@@ -22,4 +20,4 @@ app.all("*", (_req, res) => {
   res.status(404).send("OOPS!!! 404 Page Not Found");
 });
 
-export default app;
+module.exports = app

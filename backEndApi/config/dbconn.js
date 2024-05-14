@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose')
 
 mongoose.set("strictQuery", false);
 
@@ -17,4 +17,4 @@ const connectToDB = async () => {
   }
 };
 
-export default connectToDB;
+module.exports = connectToDB;
