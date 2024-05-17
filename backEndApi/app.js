@@ -15,9 +15,9 @@ const userRoutes = require('./routes/user.routes.js');
 
 app.use('/api/v1/user', userRoutes);
 
-
+/*
 app.all("*", (_req, res) => {
   res.status(404).send("OOPS!!! 404 Page Not Found");
-});
+});*/
 
 module.exports = app
