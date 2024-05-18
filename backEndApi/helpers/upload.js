@@ -1,5 +1,6 @@
 const cloudinary = require("cloudinary").v2;
-require('dotenv').config()
+require('dotenv').config();
+
 cloudinary.config({ 
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
@@ -15,8 +16,8 @@ const uploadFile = async (filePath) => {
         console.error("Error uploading file to Cloudinary:", error);
         throw new Error("Failed to upload file to Cloudinary");
     }
-}
+};
 
 module.exports = {
     uploadFile
-}
+};

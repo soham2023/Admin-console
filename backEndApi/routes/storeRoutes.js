@@ -10,18 +10,16 @@ const uploader = multer({
 });
 
 // Route for creating a new store record
-router.post('/store', uploader.single('file'), storeController.createRecord);
+router.post('/store', uploader.single('file'), (req, res, next) => {
+    console.log('File:', req.file); // Log file details
+    console.log('Body:', req.body); // Log other form data
+    next(); // Pass control to the storeController
+}, storeController.createRecord);
 
-// Route for retrieving all store records
+// Other routes
 router.get('/store', storeController.getAllRecords);
-
-// Route for retrieving a specific store record by ID
 router.get('/store/:id', storeController.getRecordById);
-
-// Route for updating a store record by ID
 router.put('/store/:id', storeController.updateRecord);
-
-// Route for deleting a store record by ID
 router.delete('/store/:id', storeController.deleteRecord);
 
 module.exports = router;
