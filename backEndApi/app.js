@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 require('dotenv').config(); // Load environment variables from .env file
 const connectToDatabase = require("./config/dbconn");
 
@@ -19,7 +19,7 @@ app.use('/api', storeRoutes);
 app.use('/api', productRoutes);
 
 // Start the server
-const port = process.env.PORT || 4040;
+const port = process.env.PORT;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
