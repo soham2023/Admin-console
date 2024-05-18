@@ -1,10 +1,11 @@
-var mongoose  =  require('mongoose');  
-   
-var storeSchema = new mongoose.Schema({  
-    file_url:{  
-        type:String,
-        required:true  
+// models/Store.js
+const mongoose = require('mongoose');
+
+const storeSchema = new mongoose.Schema({
+    file_url: {
+        type: String,
+        required: true
     }
-});  
-   
+});
+
 module.exports = mongoose.model('Store', storeSchema);
