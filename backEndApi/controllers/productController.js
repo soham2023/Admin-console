@@ -3,7 +3,8 @@ const Product = require('../models/Product');
 const createProduct = async (req, res) => {
     try {
         const { name, color, variety, price } = req.body;
-        const newProduct = new Product({ name, color, variety, price });
+        const image = req.file ? req.file.path : null;
+        const newProduct = new Product({ name, color, variety, price, image });
         const savedProduct = await newProduct.save();
         res.status(201).json({ success: true, data: savedProduct });
     } catch (error) {
@@ -20,9 +21,9 @@ const getProducts = async (req, res) => {
     }
 };
 
-const getProductById = async (req, res) => {
+const getProductByName = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findOne({ name: req.params.name });
         if (!product) {
             return res.status(404).json({ success: false, msg: 'Product not found' });
         }
@@ -32,9 +33,13 @@ const getProductById = async (req, res) => {
     }
 };
 
-const updateProduct = async (req, res) => {
+const updateProductByName = async (req, res) => {
     try {
-        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const updatedData = req.body;
+        if (req.file) {
+            updatedData.image = req.file.path;
+        }
+        const updatedProduct = await Product.findOneAndUpdate({ name: req.params.name }, updatedData, { new: true });
         if (!updatedProduct) {
             return res.status(404).json({ success: false, msg: 'Product not found' });
         }
@@ -59,7 +64,7 @@ const deleteProduct = async (req, res) => {
 module.exports = {
     createProduct,
     getProducts,
-    getProductById,
-    updateProduct,
+    getProductByName,
+    updateProductByName,
     deleteProduct
 };
