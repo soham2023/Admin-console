@@ -14,7 +14,7 @@ app.use(express.json());
 connectToDatabase();
 
 // Routes
-app.use('/api', storeRoutes);
+//app.use('/api', storeRoutes);
 app.use('/api', productRoutes);
 
 module.exports = app;

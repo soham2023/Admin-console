@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 const router = express.Router();
 const storeController = require('../controllers/adminController');
 const multer = require('multer');
@@ -23,3 +23,4 @@ router.put('/store/:id', storeController.updateRecord);
 router.delete('/store/:id', storeController.deleteRecord);
 
 module.exports = router;
+*/

@@ -1,10 +1,21 @@
 const Product = require('../models/Product');
+const Upload = require('../helpers/upload');
 
+// Create a new product
 const createProduct = async (req, res) => {
     try {
         const { name, color, variety, price } = req.body;
-        const image = req.file ? req.file.path : null;
-        const newProduct = new Product({ name, color, variety, price, image });
+        let imageUrl = null;
+        
+        if (req.file) {
+            const upload = await Upload.uploadFile(req.file.path);
+            if (!upload || !upload.secure_url) {
+                return res.status(400).json({ success: false, msg: 'Upload process failed or no secure_url returned' });
+            }
+            imageUrl = upload.secure_url;
+        }
+
+        const newProduct = new Product({ name, color, variety, price, image: imageUrl });
         const savedProduct = await newProduct.save();
         res.status(201).json({ success: true, data: savedProduct });
     } catch (error) {
@@ -12,6 +23,7 @@ const createProduct = async (req, res) => {
     }
 };
 
+// Get all products
 const getProducts = async (req, res) => {
     try {
         const products = await Product.find({});
@@ -21,6 +33,7 @@ const getProducts = async (req, res) => {
     }
 };
 
+// Get a product by name
 const getProductByName = async (req, res) => {
     try {
         const product = await Product.findOne({ name: req.params.name });
@@ -33,12 +46,19 @@ const getProductByName = async (req, res) => {
     }
 };
 
+// Update a product by name
 const updateProductByName = async (req, res) => {
     try {
         const updatedData = req.body;
+
         if (req.file) {
-            updatedData.image = req.file.path;
+            const upload = await Upload.uploadFile(req.file.path);
+            if (!upload || !upload.secure_url) {
+                return res.status(400).json({ success: false, msg: 'Upload process failed or no secure_url returned' });
+            }
+            updatedData.image = upload.secure_url;
         }
+
         const updatedProduct = await Product.findOneAndUpdate({ name: req.params.name }, updatedData, { new: true });
         if (!updatedProduct) {
             return res.status(404).json({ success: false, msg: 'Product not found' });
@@ -49,6 +69,7 @@ const updateProductByName = async (req, res) => {
     }
 };
 
+// Delete a product by ID
 const deleteProduct = async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);

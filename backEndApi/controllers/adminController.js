@@ -1,4 +1,4 @@
-const Store = require('../models/Store');
+/*const Store = require('../models/Store');
 const Upload = require("../helpers/upload");
 
 // Create a new store record
@@ -77,3 +77,4 @@ module.exports = {
     updateRecord,
     deleteRecord
 };
+*/
