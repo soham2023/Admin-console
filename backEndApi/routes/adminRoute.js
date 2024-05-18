@@ -1,9 +1,21 @@
-const express = require('express');
-const router = express.Router();
+const express = require("express");
+const user = express();
 
-// Define your admin-related routes here
-router.get('/', (req, res) => {
-  res.send('Admin route');
+const path = require('path');
+const bodyParser = require('body-parser');
+
+user.use(bodyParser.urlencoded({ extended:true }));
+user.use(express.static(path.resolve(__dirname,'public')));
+
+const multer = require('multer');
+
+var uploader = multer({
+    storage: multer.diskStorage({}),
+    limits: { fileSize: 500000 }
 });
 
-module.exports = router;
+const adminController = require('../controllers/adminController');
+
+user.post('/upload-file', uploader.single("file"), adminController.uploadFile);
+
+module.exports = user;

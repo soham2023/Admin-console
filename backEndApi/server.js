@@ -1,38 +1,10 @@
-/*
-const { v2 } = require('cloudinary')
+const app = require('./app');
+const connectToDatabase = require('./config/dbconn');
 
-const app = require('./app.js')
-const connectToDB = require('./config/dbconn.js')
+const PORT = process.env.PORT || 3000;
 
-v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+connectToDatabase();
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, async () => {
-  // Connect to DB
-  await connectToDB();
-  console.log(`App is running at http://localhost:${PORT}`);
-});
-*/
-
-require('dotenv').config();
-const { v2: cloudinary } = require('cloudinary');
-const app = require("./app");
-const connectToDB = require('./config/dbconn');
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, async () => {
-    await connectToDB();
-    console.log(`App is running at http://localhost:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
